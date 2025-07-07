@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crux of Melody</title>
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url('Pinkan.PNG') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .card {
+      background: rgba(0,0,0,0.7);
+      color: #fff;
+      padding: 40px 50px;
+      border-radius: 15px;
+      max-width: 420px;
+      width: 90%;
+    }
+    h1 { text-align: center; margin-bottom: 25px; }
+    label { display:block; margin: 12px 0 6px; }
+    .radio-group { display:flex; gap:25px; margin-bottom:20px; }
+    button {
+      display:block;
+      width:100%;
+      padding:12px 0;
+      margin-top:25px;
+      font-size:1rem;
+      border:none;
+      border-radius:10px;
+      cursor:pointer;
+      background:#ffcc00;
+      color:#000;
+      transition:background .3s;
+    }
+    button:hover { background:#ffaa00; }
+    select, .radio-group input { cursor:pointer; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Solo Mode</h1>
+
+    <form id="soloForm">
+      <!-- Q1 : Al Coda perk -->
+      <label>Do you have <strong>Al coda</strong> perk? (5 mins song)</label>
+      <div class="radio-group">
+        <label><input type="radio" name="al_coda" value="yes" required> Yes</label>
+        <label><input type="radio" name="al_coda" value="no" required> No</label>
+      </div>
+
+      <!-- Q2 : Song choice -->
+      <label for="song">Choose a song that you have :</label>
+      <select id="song" name="song" required>
+        <option value="" disabled selected hidden>— Select one —</option>
+        <option value="fire">Nocturnal lullaby (fire room)</option>
+        <option value="poison">Canon's cadence (poison room)</option>
+        <option value="sleep">Rondo of Exhilaration (sleep room)</option>
+        <option value="ice">March of Alacrity (ice room)</option>
+        <option value="none">none</option>
+      </select>
+
+      <button type="submit">Continue</button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('soloForm');
+    form.addEventListener('submit', e => {
+      e.preventDefault();                               // stop native submit
+      if (!form.checkValidity()) return form.reportValidity();
+
+      const perk   = new FormData(form).get('al_coda');
+      const song   = new FormData(form).get('song');
+
+      if (perk === 'no') {
+        window.location.href = 'noperk.html';
+        return;
+      }
+
+      // map song ➜ page
+      const target = {
+        fire   : 'solo.fire.html',
+        poison : 'solo.poison.html',
+        sleep  : 'solo.sleep.html',
+        ice    : 'solo.ice.html',
+        none   : 'solo.none.html'
+      }[song];
+
+      window.location.href = target;
+    });
+  </script>
+</body>
+</html>
